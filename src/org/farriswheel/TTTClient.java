@@ -24,6 +24,7 @@ public class TTTClient {
 
         } catch (IOException e) {
             JOptionPane.showMessageDialog(view.getFrame(), e.getMessage());
+            System.exit(1);
         }
 
     }
