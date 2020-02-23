@@ -10,7 +10,7 @@ public class TTTServer implements Runnable {
 
     private ServerSocket server = null;
     private Socket socket       = null;
-    private InputStream in  = null;
+    private InputStream in      = null;
 
     private int port;
 
@@ -26,7 +26,7 @@ public class TTTServer implements Runnable {
 
             socket = server.accept();
             in = socket.getInputStream();
-            System.out.println(in.read());
+            System.out.println((char)in.read());
             socket.close();
 
         } catch (Exception e) {
