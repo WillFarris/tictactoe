@@ -1,13 +1,14 @@
 package org.farriswheel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 
 public class Main {
     public static void main(String[] args) {
-        TTTClientView client = new TTTClientView();
+        TTTClient client = new TTTClient("localhost", 69, "Will");
     }
-
 }
