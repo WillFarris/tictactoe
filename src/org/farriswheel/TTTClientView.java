@@ -28,12 +28,8 @@ public class TTTClientView {
         constraints.weighty = 1.0;
         constraints.anchor = GridBagConstraints.CENTER;
 
-        ActionListener event = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                client.handleGameButton((TTTButton) e.getSource());
-            }
-        };
+        ActionListener tileEvent = e -> client.handleGameButton((TTTButton) e.getSource());
+        ActionListener metaEvent = e -> client.handleMetaButton((JButton)e.getSource());
 
         TTTButton [][] tiles = new TTTButton[3][3];
         for(int x = 0; x < 3; ++x) {
@@ -42,20 +38,19 @@ public class TTTClientView {
                 tiles[x][y].setFont(new Font("Arial", Font.PLAIN, 80));
                 constraints.gridx = x;
                 constraints.gridy = y;
-                tiles[x][y].addActionListener(event);
+                tiles[x][y].addActionListener(tileEvent);
                 frame.add(tiles[x][y], constraints);
             }
         }
 
-        JPanel info = new JPanel();
-        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 0;
+        constraints.gridy = 4;
         constraints.gridwidth = 3;
+        JButton close = new JButton("Close");
+        close.addActionListener(metaEvent);
+        frame.add(close, constraints);
 
-        JLabel test = new JLabel("hello world");
-        info.add(test);
 
-
-        frame.add(info, constraints);
         frame.setVisible(true);
     }
 
