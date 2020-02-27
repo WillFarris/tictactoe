@@ -2,16 +2,14 @@ package org.farriswheel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.function.Function;
 
-public class TTTClientView {
+public class ClientView {
 
     private JFrame frame;
-    private TTTClient client;
+    private Client client;
 
-    public TTTClientView(String title, int width, int height, TTTClient client) {
+    public ClientView(String title, int width, int height, Client client) {
 
         this.client = client;
 
