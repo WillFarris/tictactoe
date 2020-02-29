@@ -1,6 +1,7 @@
 package org.farriswheel;
 
-public class Main {
+public class TicTacToe {
+
     public static void main(String[] args) {
         Thread serverThread = new Thread(new Server(9000));
         serverThread.start();
