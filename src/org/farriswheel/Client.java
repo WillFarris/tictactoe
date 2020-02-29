@@ -1,65 +1,95 @@
 package org.farriswheel;
 
-import sun.lwawt.macosx.CSystemTray;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
+import static org.farriswheel.ServerGameSession.*;
+
 public class Client implements Runnable {
 
-    public static final int BUFFERSIZE = 5;
-
     private Socket connection;
+    private InputStream in;
+    private OutputStream out;
+
     private String hostname;
     private int port;
-
+    private String nickname;
+    private String symbol;
 
     private ClientView view;
-
-    private OutputStreamWriter out;
-    private InputStreamReader in;
-    private char [] buffer;
-
-    String nickname;
+    private boolean yourmove;
 
     public Client(String ip, int port, String nickname) {
         this.hostname = ip;
         this.port = port;
         this.nickname = nickname;
-        this.buffer = new char[BUFFERSIZE];
+        this.symbol = " ";
+
+        yourmove = false;
     }
 
     @Override
     public void run() {
-        this.view = new ClientView("Tic Tac Toe", 800, 600, this);
+        this.view = new ClientView("Tic Tac Toe - "+nickname, 800, 600, this);
         try {
             this.connection = new Socket(this.hostname, this.port);
-            in = new InputStreamReader(this.connection.getInputStream(), "UTF-8");
-            out = new OutputStreamWriter(this.connection.getOutputStream(), "UTF-8");
+            in = this.connection.getInputStream();
+            out = this.connection.getOutputStream();
 
-            int len = in.read();
-            in.read(buffer, 0, len);
-            String message = this.nickname + ": " + buffer.toString();
-            JOptionPane.showMessageDialog(view.getFrame(), message);
+            writeLine(nickname);
+            symbol = readLine();
+            System.out.println(nickname + " is playing as " + symbol);
+            gameLoop();
+            connection.close();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(view.getFrame(), e.getMessage());
-            System.exit(1);
+            System.exit(-1);
         }
     }
 
-    public void handleGameButton(TTTButton pressed) {
-        try
-        {
-            if (connection.isConnected()) {
-                char [] coord = { 127, (char) pressed.getTileX(), (char) pressed.getTileY()};
-                out.write(coord.toString());
+    private void gameLoop() throws IOException {
+        String message = null;
+        do {
+            message = readLine();
+            switch (message) {
+                case YOURMOVE:
+                    yourmove = true;
+                    break;
+                case OTHERMOVE:
+                    otherMove();
+                default:
+                    break;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } while (connection.isConnected());
+    }
+
+    public void handleGameButton(TTTButton pressed) {
+        if(yourmove) {
+            try {
+                writeLine(pressed.getTileX()+":"+pressed.getTileY());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            pressed.setText(symbol);
+            pressed.setEnabled(false);
+            yourmove = false;
         }
-        pressed.setText("X");
-        pressed.setEnabled(false);
+    }
+
+    private void otherMove() throws IOException {
+        writeLine(ACK);
+        String [] move = readLine().split(":");
+        TTTButton chosen = view.getByCoord(Integer.valueOf(move[0]), Integer.valueOf(move[1]));
+        if(symbol.equals("X"))
+            chosen.setText("O");
+        else
+            chosen.setText("X");
+        chosen.setEnabled(false);
+        writeLine(ACK);
     }
 
     public void handleMetaButton(JButton pressed) {
@@ -70,6 +100,19 @@ public class Client implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String readLine() throws IOException {
+        byte [] buffer = new byte[BUFFERSIZE];
+        int len = in.read(buffer);
+        if(len < 0)
+            return null;
+        return new String(buffer, 0, len);
+    }
+
+    private void writeLine(String message) throws IOException {
+        out.write(message.getBytes());
+        out.flush();
     }
 
 

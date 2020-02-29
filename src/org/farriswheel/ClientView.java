@@ -8,6 +8,7 @@ public class ClientView {
 
     private JFrame frame;
     private Client client;
+    TTTButton [][] tiles = new TTTButton[3][3];
 
     public ClientView(String title, int width, int height, Client client) {
 
@@ -29,7 +30,7 @@ public class ClientView {
         ActionListener tileEvent = e -> client.handleGameButton((TTTButton) e.getSource());
         ActionListener metaEvent = e -> client.handleMetaButton((JButton)e.getSource());
 
-        TTTButton [][] tiles = new TTTButton[3][3];
+        tiles = new TTTButton[3][3];
         for(int x = 0; x < 3; ++x) {
             for (int y = 0; y < 3; ++y) {
                 tiles[x][y] = new TTTButton("_", x, y);
@@ -52,6 +53,9 @@ public class ClientView {
         frame.setVisible(true);
     }
 
+    public TTTButton getByCoord(int x, int y) {
+        return tiles[x][y];
+    }
     public JFrame getFrame() {
         return frame;
     }

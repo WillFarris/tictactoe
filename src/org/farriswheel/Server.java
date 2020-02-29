@@ -18,9 +18,7 @@ public class Server implements Runnable {
     private int gameSessions = 0;
     private final int MAX_GAME_SESSIONS = 5;
 
-    public static final String SETUPCOMPLETE = "SETUPCOMPLETE";
-    public static final String CONFIGRECEIVED = "CONFIGRECEIVED";
-    public static final String READYFORMOVE = "READYFORMOVE";
+
 
     public Server(int port) {
         this.port = port;
