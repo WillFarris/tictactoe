@@ -8,7 +8,7 @@ public class ClientView {
 
     private JFrame frame;
     private Client client;
-    TTTButton [][] tiles = new TTTButton[3][3];
+    TTTButton [][] tiles;
 
     public ClientView(String title, int width, int height, Client client) {
 
