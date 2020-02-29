@@ -33,5 +33,14 @@ public class TicTacToe {
 
         Thread client2 = new Thread(new Client("localhost", 9000, "Player 2"));
         client2.start();
+
+        try {
+            serverThread.join();
+            client1.join();
+            client2.join();
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 }

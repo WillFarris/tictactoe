@@ -46,18 +46,28 @@ public class Client implements Runnable {
             JOptionPane.showMessageDialog(view.getFrame(), e.getMessage());
             System.exit(-1);
         }
+        System.out.println("Thread should exit after this message...");
     }
 
     private void gameLoop() throws IOException {
         String message = null;
         do {
             message = readLine();
+            if(message == null)
+                break;
             switch (message) {
                 case YOURMOVE:
                     yourmove = true;
                     break;
                 case OTHERMOVE:
                     otherMove();
+                    break;
+                case YOUWIN:
+                    JOptionPane.showMessageDialog(view.getFrame(), "You Win!");
+                    break;
+                case YOULOSE:
+                    JOptionPane.showMessageDialog(view.getFrame(), "You lose :(");
+                    break;
                 default:
                     break;
             }
