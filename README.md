@@ -1,6 +1,5 @@
 # Tic Tac Toe
-CS 494
-Will Farris
+CS 494 / Will Farris
 
 ## About
 A simple networked Tic Tac Toe game for my CS494 term project. It is very much a work in progress, and barely functions
