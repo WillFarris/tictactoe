@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Testing" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="org.farriswheel.TicTacToe" />
+    <module name="TicTacToe" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

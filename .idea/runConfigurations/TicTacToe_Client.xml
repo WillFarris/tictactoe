@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="TicTacToe Client" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="org.farriswheel.TicTacToe" />
+    <module name="TicTacToe" />
+    <option name="VM_PARAMETERS" value="client" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
