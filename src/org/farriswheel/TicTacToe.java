@@ -6,7 +6,7 @@ public class TicTacToe {
 
         if(args.length > 0) {
             if(args[0].equalsIgnoreCase("client")) {
-                Thread c = new Thread(new Client("localhost", 9000, "Player"));
+                Thread c = new Thread(new Client());
                 c.start();
                 try {
                     c.join();
@@ -15,7 +15,8 @@ public class TicTacToe {
                 }
                 System.exit(0);
             } else if (args[0].equalsIgnoreCase("server")) {
-                Thread s = new Thread(new Server(9000));
+                int port = Integer.valueOf(args[1]);
+                Thread s = new Thread(new Server(port));
                 s.start();
                 try {
                     s.join();

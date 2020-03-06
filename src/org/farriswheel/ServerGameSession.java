@@ -98,7 +98,8 @@ public class ServerGameSession implements Runnable {
                 playerMove = current.readLine();
                 while(!placeSymbol(playerMove, current.getSymbol())) {
                     current.writeLine(BADMOVE);
-                    playerMove = current.readLine();
+                    if(current.readLine().equals(MYMOVE))
+                        playerMove = current.readLine();
                 }
                 madeMove = true;
                 break;

@@ -19,7 +19,6 @@ public class Client implements Runnable {
     private String symbol;
 
     private ClientView view;
-    private JPanel setupInputDialogPanel;
     private JTextField hostnameField;
     private JTextField portField;
     private JTextField nicknameField;
@@ -30,14 +29,11 @@ public class Client implements Runnable {
         this.port = port;
         this.myNickname = myNickname;
         this.symbol = " ";
-
         yourmove = false;
+    }
 
-
-        hostnameField = new JTextField(8);
-        portField = new JTextField(8);
-        nicknameField = new JTextField(8);
-
+    private JPanel getHostnamePanel() {
+        JPanel setupInputDialogPanel = new JPanel();
         setupInputDialogPanel = new JPanel();
         setupInputDialogPanel.add(new JLabel("Hostname: "));
         setupInputDialogPanel.add(hostnameField);
@@ -48,11 +44,20 @@ public class Client implements Runnable {
         setupInputDialogPanel.add(new JLabel("Nickname: "));
         setupInputDialogPanel.add(nicknameField);
         setupInputDialogPanel.add(Box.createHorizontalStrut(15));
+        return  setupInputDialogPanel;
+    }
+
+    public Client() {
+        this.symbol = " ";
+        yourmove = false;
     }
 
     @Override
     public void run() {
-        int res = JOptionPane.showConfirmDialog(null, setupInputDialogPanel, "Configure your game", JOptionPane.OK_CANCEL_OPTION);
+        hostnameField = new JTextField(8);
+        portField = new JTextField(8);
+        nicknameField = new JTextField(8);
+        int res = JOptionPane.showConfirmDialog(null, getHostnamePanel(), "Configure your game", JOptionPane.OK_CANCEL_OPTION);
         if(res == JOptionPane.OK_OPTION)
         {
             this.myNickname = nicknameField.getText();
@@ -77,14 +82,12 @@ public class Client implements Runnable {
             otherNickname = readLine();
             writeLine(ACK);
             System.out.println("["+myNickname+"] You are "+symbol+". You are playing against "+otherNickname);
-
             gameLoop();
-
-            connection.close();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(view.getFrame(), e.getMessage());
             System.exit(-1);
         }
+        System.exit(0);
     }
 
     private void gameLoop() throws IOException {
@@ -106,9 +109,11 @@ public class Client implements Runnable {
                     break;
                 case YOUWIN:
                     JOptionPane.showMessageDialog(view.getFrame(), "You Win!");
+                    connection.close();
                     break;
                 case YOULOSE:
                     JOptionPane.showMessageDialog(view.getFrame(), "You lose :(");
+                    connection.close();
                     break;
                 case QUITNOW:
                     JOptionPane.showMessageDialog(view.getFrame(), otherNickname + " quit");
