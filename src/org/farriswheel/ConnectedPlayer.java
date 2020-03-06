@@ -26,19 +26,28 @@ public class ConnectedPlayer {
     public Socket getConnection() {return this.connection;}
 
     public void readPlayerInfo(char playerSymbol) throws IOException {
+        writeLine(SETUPINFO);
         this.nickname = readLine();
         this.playerSymbol = playerSymbol;
         out.write(playerSymbol);
         out.flush();
+        System.out.print("[SERVER] "+ nickname + " is playing as "+ playerSymbol + ": ");
+        System.out.println(readLine()); //get ACK from player to signify the assigned symbol was received
     }
 
     public String readLine() throws IOException {
+        if(!connection.isConnected() || connection.isClosed())
+            return null;
         byte [] buffer = new byte[BUFFERSIZE];
         int len = in.read(buffer);
+        if(len < 0)
+            return null;
         return new String(buffer, 0, len);
     }
 
     public void writeLine(String message) throws IOException {
+        if(!connection.isConnected() || connection.isClosed())
+            return;
         out.write(message.getBytes());
         out.flush();
     }
@@ -48,5 +57,7 @@ public class ConnectedPlayer {
     }
 
     public boolean isConnected() {return connection.isConnected();}
+
+    public boolean isClosed() {return connection.isClosed();}
 
 }
