@@ -56,6 +56,8 @@ public class Client implements Runnable {
             if(message == null)
                 break;
             switch (message) {
+                case ACK:
+                    break;
                 case YOURMOVE:
                     yourmove = true;
                     break;
