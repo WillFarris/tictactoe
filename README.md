@@ -7,3 +7,10 @@ A simple client-server networked Tic Tac Toe game for my CS494 term project. A s
 
 ## Installation
 The project was created with Intellij, importing from version control and building from within the IDE is the recommended installation method for now
+
+
+## Usage
+
+To start the server from the command line: `java -jar TicTacToe.jar server <port>`
+
+To start the client from the command line: `java -jar TicTacToe.jar client`
