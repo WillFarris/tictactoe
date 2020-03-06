@@ -23,6 +23,7 @@ public class TicTacToe {
                     e.printStackTrace();
                 }
             }
+            System.exit(0);
         }
 
         Thread serverThread = new Thread(new Server(9000));
