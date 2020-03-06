@@ -29,7 +29,7 @@ public class Server implements Runnable {
     public void run() {
         try {
             server = new ServerSocket(port);
-            System.out.println("Server started on port " + port);
+            System.out.println("Server started on port " + port + "\nCan handle "+MAX_GAME_SESSIONS+" games ("+2*MAX_GAME_SESSIONS+" players)");
         } catch (IOException e) {
             e.printStackTrace();
         }
