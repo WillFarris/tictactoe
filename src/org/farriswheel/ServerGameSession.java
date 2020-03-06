@@ -5,7 +5,6 @@ import java.net.Socket;
 
 public class ServerGameSession implements Runnable {
 
-<<<<<<< HEAD
     public static final int BUFFERSIZE = 8; //Maximum size in bytes a message in either direction can be
 
     public static final String SETUPINFO = "SETUPINF"; // Server -> Client, begins process of setting nickname and player symbol
