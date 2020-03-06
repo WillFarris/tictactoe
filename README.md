@@ -22,4 +22,4 @@ From the command line in the root of the project folder, the following commands 
 
 `java -jar out/artifacts/TicTacToe_jar/TicTacToe.jar server <port>` to start a server on the specified port.
 
-A sort of "demo" run can be achieved through the "Test" build profile in IntelliJ. This profile will start a server and two clients. Note, this version is buggy when dealing with disconnects due to calls to `System.exit()` within different threads, which will terminate the whole program instead of just the thread it's called from.
+A sort of "demo" run can be achieved through the "Testing" build profile in IntelliJ. This profile will start a server and two clients. Note, this version is buggy when dealing with disconnects due to calls to `System.exit()` within different threads, which will terminate the whole program instead of just the thread it's called from.
