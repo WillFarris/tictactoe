@@ -2,7 +2,7 @@
 CS 494 / Will Farris
 
 ## About
-A simple client-server networked Tic Tac Toe game for my CS494 term project. A server thread waits for connections and spawns up to 5 games at a time. The network protocol for this game is defined in PROTOCOl.pdf.
+A simple client-server networked Tic Tac Toe game for my CS494 term project. A server thread waits for connections and spawns up to 5 games at a time. The network protocol for this game is defined in PROTOCOl.pdf. Grading criteria is found in GRADING_SHEET.pdf.
 
 ## Compilation
 
