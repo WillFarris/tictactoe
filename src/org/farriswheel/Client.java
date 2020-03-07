@@ -82,6 +82,7 @@ public class Client implements Runnable {
             otherNickname = readLine();
             writeLine(ACK);
             System.out.println("["+myNickname+"] You are "+symbol+". You are playing against "+otherNickname);
+            JOptionPane.showMessageDialog(view.getFrame(), "Connected! You are playing as "+symbol+" against "+otherNickname);
             gameLoop();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(view.getFrame(), e.getMessage());
@@ -95,7 +96,9 @@ public class Client implements Runnable {
         do {
             message = readLine();
             if(message == null) {
-                System.err.println("["+myNickname+"]: Error getting message from server");
+                System.err.println("["+myNickname+"]: Error getting message from server, quitting...");
+                JOptionPane.showMessageDialog(view.getFrame(), "Lost connecting to server, quitting...");
+                System.exit(-1);
             }
             System.out.println("["+myNickname+"]: got message from server: "+message);
             //writeLine(ACK);
@@ -145,6 +148,7 @@ public class Client implements Runnable {
         chosenByOtherPlayer.setEnabled(false);
         writeLine(ACK);
     }
+
 
     public void handleMetaButton(JButton pressed) {
         try {

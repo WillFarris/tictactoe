@@ -63,10 +63,20 @@ public class ServerGameSession implements Runnable {
                 if(handleTurn(player1, player0) == 1)
                     System.out.println(player1.getNickname()+"won!");
             } while(player0.isConnected() && player1.isConnected() && !player0.isClosed() && !player1.isClosed());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("[SERVER] Had connection error, sending QUITNOW to clients...");
+            try {
+                if(player0.isConnected() && !player0.isClosed()) {
+                    player0.writeLine(QUITNOW);
+                    player0.close();
+                }
+                if(player1.isConnected() && !player1.isClosed()) {
+                    player1.writeLine(QUITNOW);
+                    player1.close();
+                }
+            } catch (IOException e1) {}
         }
-        System.out.println("[SERVER] Game over");
+        System.out.println("[SERVER] Game ended");
     }
 
     /* Handles a single turn for a single player
