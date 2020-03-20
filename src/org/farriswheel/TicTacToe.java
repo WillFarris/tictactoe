@@ -1,47 +1,22 @@
 package org.farriswheel;
 
+
 public class TicTacToe {
 
     public static void main(String[] args) {
 
         if(args.length > 0) {
             if(args[0].equalsIgnoreCase("client")) {
-                Thread c = new Thread(new Client("localhost", 9000, "Player"));
-                c.start();
-                try {
-                    c.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.exit(0);
+                new Client("localhost", 9000, "Player");
             } else if (args[0].equalsIgnoreCase("server")) {
-                Thread s = new Thread(new Server(9000));
-                s.start();
-                try {
-                    s.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if(args.length < 3) {
+                    System.err.println("usage: java -jar TicTacToe.jar server <port> <max games>");
+                    System.exit(-1);
                 }
+                new Server(Integer.valueOf(args[1]), Integer.valueOf(args[2]));
             }
-            System.exit(0);
-        }
-
-        Thread serverThread = new Thread(new Server(9000));
-        serverThread.start();
-
-        Thread client1 = new Thread(new Client("localhost", 9000, "Player 1"));
-        client1.start();
-
-        Thread client2 = new Thread(new Client("localhost", 9000, "Player 2"));
-        client2.start();
-
-        try {
-            serverThread.join();
-            client1.join();
-            client2.join();
-        }catch (Exception e) {
-            e.printStackTrace();
-            System.exit(-1);
+        } else {
+            System.err.println("TicTacToe: usage: java -jar TicTacToe.jar <client/server> <options>");
         }
     }
 }

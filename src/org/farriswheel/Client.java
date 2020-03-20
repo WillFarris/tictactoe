@@ -1,12 +1,16 @@
 package org.farriswheel;
 
+/*
+ *
+ */
+
 import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
 import static org.farriswheel.ServerGameSession.*;
 
-public class Client implements Runnable {
+public class Client {
 
     private Socket connection;
     private InputStream in;
@@ -48,10 +52,11 @@ public class Client implements Runnable {
         setupInputDialogPanel.add(new JLabel("Nickname: "));
         setupInputDialogPanel.add(nicknameField);
         setupInputDialogPanel.add(Box.createHorizontalStrut(15));
+
+        run();
     }
 
-    @Override
-    public void run() {
+    private void run() {
         int res = JOptionPane.showConfirmDialog(null, setupInputDialogPanel, "Configure your game", JOptionPane.OK_CANCEL_OPTION);
         if(res == JOptionPane.OK_OPTION)
         {

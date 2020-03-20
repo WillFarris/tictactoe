@@ -6,41 +6,37 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server implements Runnable {
+public class Server {
 
     private ServerSocket server  = null;
-    private int port;
 
     private Socket player1 = null;
     private Socket player2 = null;
 
-    private ExecutorService gameThreadPool = null;
+    private ExecutorService gameThreadPool;
     private int gameSessions = 0;
-    private final int MAX_GAME_SESSIONS = 5;
 
+    public Server(int port, int maxSessions) {
+        this.gameThreadPool = Executors.newFixedThreadPool(maxSessions);
 
-
-    public Server(int port) {
-        this.port = port;
-        this.gameThreadPool = Executors.newFixedThreadPool(MAX_GAME_SESSIONS);
-    }
-
-    @Override
-    public void run() {
         try {
             server = new ServerSocket(port);
-            System.out.println("Server started on port " + port + "\nCan handle "+MAX_GAME_SESSIONS+" games ("+2*MAX_GAME_SESSIONS+" players)");
+            System.out.println("Server started on port " + port + "\nCan handle "+maxSessions+" games ("+2*maxSessions+" players)\nWaiting for connection...");
         } catch (IOException e) {
             e.printStackTrace();
         }
         while(true) {
             try {
-                player1 = server.accept();
-                player2 = server.accept();
-                ++gameSessions;
-                ServerGameSession session = new ServerGameSession(player1, player2);
-
-                gameThreadPool.execute(session);
+                if(gameSessions < maxSessions) {
+                    player1 = server.accept();
+                    player2 = server.accept();
+                    ++gameSessions;
+                    ServerGameSession session = new ServerGameSession(player1, player2);
+                    gameThreadPool.execute(session);
+                } else {
+                    System.out.println("Max games reached");
+                    break;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
